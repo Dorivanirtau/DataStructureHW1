@@ -730,6 +730,17 @@ class AVLTreeList(object):
 
         return abs(self_height_origin - lst_height_origin)
 
+    """concatenates higher list height to lower self
+        1. delete most left node of lst
+        2. concat lst to self with based on deleted node that maintains
+                self < deleted node < lst
+        3. rebalance self
+
+        @type lst: AVLTreeList
+        @param lst: a list to be concatenated after self
+        
+        """
+
     def concat_big_self_to_small_list(self, lst):
         deleted_min_node = AVLNode(lst.firstItem.getValue())
         lst.delete(0)
@@ -752,9 +763,18 @@ class AVLTreeList(object):
         deleted_min_node.updateHeight()
         deleted_min_node.updateSize()
         self.rebalanceTreeDelete(deleted_min_node)
-        self.updateFromNodeToRoot(deleted_min_node)
+        # self.updateFromNodeToRoot(deleted_min_node)
 
+    """concatenates lower list to higher self
+           1. delete right node of self
+           2. concat lst to self with based on deleted node that maintains
+                   self < deleted node < lst
+           3. rebalance self
 
+           @type lst: AVLTreeList
+           @param lst: a list to be concatenated after self
+
+           """
     def concat_small_self_to_big_list(self, lst):
         deleted_max_node = AVLNode(self.lastItem.getValue())
         self.delete(self.size - 1)
@@ -780,7 +800,7 @@ class AVLTreeList(object):
         deleted_max_node.updateHeight()
         deleted_max_node.updateSize()
         self.rebalanceTreeDelete(deleted_max_node)
-        self.updateFromNodeToRoot(deleted_max_node)
+        # self.updateFromNodeToRoot(deleted_max_node)
 
 
     """searches for a *value* in the list
